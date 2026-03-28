@@ -86,32 +86,8 @@ const Popup = ({ onClose }) => {
     );
 };
 
-
 // --- LANDING COMPONENT (MODIFIED) ---
 const Landing = () => {
-    const [isPopupVisible, setIsPopupVisible] = useState(false);
-
-    // --- MODIFIED: Effect to show the popup using sessionStorage ---
-    useEffect(() => {
-        // 1. Check if the user has dismissed the popup in the current session
-        const hasDismissedPopup = sessionStorage.getItem('popupDismissed');
-
-        // 2. Only show the popup if they have NOT dismissed it in this session
-        if (!hasDismissedPopup) {
-            const timer = setTimeout(() => {
-                setIsPopupVisible(true);
-            }, 1500); // Popup appears after 1.5 seconds
-
-            return () => clearTimeout(timer);
-        }
-    }, []); // Empty dependency array ensures this runs only once on mount
-
-    // --- MODIFIED: Function to close the popup and set the session flag ---
-    const handleClosePopup = () => {
-        setIsPopupVisible(false);
-        // Set the flag in sessionStorage so it won't appear again in this session
-        sessionStorage.setItem('popupDismissed', 'true');
-    };
 
     const logos = [
         { img: '/Landing/Logo/l1.png' }, { img: '/Landing/Logo/l2.png' },
@@ -130,7 +106,7 @@ const Landing = () => {
         <div className='w-full h-full space-y-10 py-28'>
 
             {/* --- Conditionally render the popup --- */}
-            {isPopupVisible && <Popup onClose={handleClosePopup} />}
+            {/* Popup removed as per request */}
 
             {/* --- HEADER AND TEXT SECTIONS (All Center Aligned) --- */}
             <div className='flex flex-col h-full w-full justify-center items-center'>
