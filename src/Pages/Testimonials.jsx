@@ -1,0 +1,138 @@
+import React, { useState, useEffect } from "react";
+import SEO from "../Components/Shared/SEO";
+
+// In a real React application, you would import useNavigate like this:
+import { useNavigate } from "react-router-dom";
+
+const Testimonials = () => {
+    const testimonialsData = [
+        {
+            id: 1,
+            name: "Clay Boykin",
+            role: "Author | Thought Partner | Guide",
+            avatar: "/Core/Avatar.png",
+            quote:
+                "Sarthak is a dynamic, down-to-earth, and proactive visionary whose sincerity and resilience shine through. I truly appreciated his insightful podcast questions and wish him great success ahead.",
+        },
+        {
+            id: 2,
+            name: "Arab Khan",
+            role: "CEO, UAV Systems",
+            avatar: "/Core/avtar4.png",
+            quote:
+                "What stands out the most is his clarity in setting deliverables and consistently maintaining timelines. He leads teams with confidence, ensuring alignment, motivation, and results. If you're looking for someone who brings creativity, strategic insight, and reliable execution—Sarthak is the person you want on your side.",
+        },
+        {
+            id: 3,
+            name: "Arjun Mehta",
+            role: "CEO | Visionary Leader",
+            avatar: "/Core/Avatar2.jpeg",
+            quote:
+                "Sarthak and his team at Mittal are exceptional—professional, trustworthy, and always ready to help. They’ve been instrumental in taking my business to the next level, and I’m excited for our future collaboration.",
+        },
+    ];
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+    // In your actual project, you would use the real useNavigate hook:
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonialsData.length);
+        }, 5000);
+        return () => clearInterval(intervalId);
+    }, [currentIndex, testimonialsData.length]);
+
+    const handleRedirect = () => {
+        // This will now navigate to the /testimonials route in your application.
+        navigate('/testimonials');
+    };
+
+    return (
+        <div className="flex flex-col items-center px-6 sm:px-12 lg:px-20 py-20 sm:py-24 min-h-screen w-full bg-gray-50">
+            <SEO
+                title="CEO Sarthak Mittal | Personal Branding & Personal IncubatoPersonal Brand Strategy"
+                description="See what top CEOs and Founders say about Sarthak Mittal's Personal Brand Incubator and Thought Leadership strategies."
+                keywords="client testimonials, personal branding success stories, founder personal brand strategy reviews"
+            />
+
+            {/* ## Section Header */}
+            <div className="text-center mb-24 md:mb-32">
+                <h1 className="text-black text-3xl sm:text-4xl font-bold uppercase">
+                    Success Stories: Founder Personal Brand Strategy
+                </h1>
+                <div className="sm:w-[350px] w-[350px] h-1 sm:h-2 mx-auto mt-2 mb-4 bg-[#D0A151]"></div>
+                <p className="text-xl sm:text-2xl text-black/60">
+                    Trusted by Leaders for <strong>CEO Persona Development</strong> with <strong>CEO Sarthak</strong>
+                </p>
+            </div>
+
+            {/* ## Testimonial Content Wrapper */}
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-y-24 gap-x-16 w-full max-w-6xl flex-grow">
+
+                {/* Card with Avatar */}
+                <div className="relative flex-shrink-0 w-[280px] h-[200px]">
+                    <img
+                        src={testimonialsData[currentIndex].avatar}
+                        alt="Avatar"
+                        className="w-[150px] h-[150px] rounded-full shadow-lg border-4 border-white absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/150x150/CCCCCC/FFFFFF?text=Image+Not+Found'; }}
+                        loading="lazy"
+                    />
+                    <div className="bg-[#D0A151] w-full h-full rounded-lg shadow-md flex flex-col justify-end items-center text-center pb-6">
+                        <span className="text-black/80 font-bold text-lg">
+                            {testimonialsData[currentIndex].name}
+                        </span>
+                        <span className="text-white text-xs font-medium px-2">
+                            {testimonialsData[currentIndex].role}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Quote Section */}
+                <div className="relative max-w-lg text-center lg:text-left">
+                    <img
+                        src="/Core/q1.png"
+                        className="h-8 sm:h-12 absolute -top-13 -left-4 lg:-left-8 opacity-50"
+                        alt="Quote Start"
+                    />
+                    <p className="text-lg sm:text-xl text-black/80 font-sm">
+                        {testimonialsData[currentIndex].quote}
+                    </p>
+                    <img
+                        src="/Core/q1.png"
+                        className="h-8 sm:h-12 absolute -bottom-10 -right-4 lg:-right-8 rotate-180 opacity-50"
+                        alt="Quote End"
+                    />
+                </div>
+            </div>
+
+            {/* ## Controls: Pagination Dots and Button */}
+            <div className="mt-20 md:mt-24 flex flex-col items-center gap-y-8">
+                {/* Pagination Dots */}
+                <div className="flex justify-center space-x-3">
+                    {testimonialsData.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentIndex(index)}
+                            aria-label={`Go to testimonial ${index + 1}`}
+                            className={`w-3 h-3 rounded-full transition-all duration-300 
+                                ${currentIndex === index ? "bg-black scale-110" : "bg-gray-300 hover:bg-gray-400"}
+                            `}
+                        ></button>
+                    ))}
+                </div>
+
+                {/* More Testimonials Button */}
+                <button
+                    onClick={handleRedirect}
+                    className="bg-black w-[250px] text-center text-white py-3 rounded-md shadow-lg transform transition-all duration-300 ease-in-out hover:bg-gray-800 hover:scale-105"
+                >
+                    More Testimonials
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default Testimonials;

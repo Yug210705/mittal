@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Force non-www
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^(.*)$ https://ceosarthak.com/$1 [L,R=301]
+
+  # Explicitly allow robots.txt and sitemap.xml to pass through
+  RewriteRule ^robots\.txt$ - [L]
+  RewriteRule ^sitemap\.xml$ - [L]
+
+  # 1. If the requested file exists, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 2. If the requested directory exists, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 3. Otherwise, rewrite everything else to index.html (React SPA routing)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Caching for XML files to help GSC
+<ifModule mod_headers.c>
+    <filesMatch "\.(xml|txt)$">
+        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+    </filesMatch>
+</ifModule>
